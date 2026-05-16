@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestão de Clientes</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f9f8;
+      --surface: #ffffff;
+      --surface-2: #f1f0eb;
+      --border: rgba(0,0,0,0.12);
+      --border-2: rgba(0,0,0,0.22);
+      --text: #1a1a1a;
+      --text-2: #6b6b68;
+      --text-3: #9a9a97;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --info-bg: #e6f1fb;
+      --info-text: #0c447c;
+      --info-border: rgba(24,95,165,0.3);
+      --danger-bg: #fcebeb;
+      --danger-text: #a32d2d;
+      --danger-border: rgba(163,45,45,0.3);
+      --success-bg: #eaf3de;
+      --success-text: #3b6d11;
+      --success-border: rgba(59,109,17,0.3);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1c1c1a;
+        --surface: #252523;
+        --surface-2: #2e2e2c;
+        --border: rgba(255,255,255,0.1);
+        --border-2: rgba(255,255,255,0.2);
+        --text: #f0efea;
+        --text-2: #9a9a97;
+        --text-3: #6b6b68;
+        --info-bg: #0c2540;
+        --info-text: #85b7eb;
+        --info-border: rgba(133,183,235,0.25);
+        --danger-bg: #2d1212;
+        --danger-text: #f09595;
+        --danger-border: rgba(240,149,149,0.25);
+        --success-bg: #162108;
+        --success-text: #97c459;
+        --success-border: rgba(151,196,89,0.25);
+      }
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 2rem;
+    }
+    .header h1 {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header p {
+      font-size: 14px;
+      color: var(--text-2);
+      margin-top: 4px;
+    }
+    .header code {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      background: var(--surface-2);
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 0.5px solid var(--border);
+    }
+
+    /* Metrics */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+    .metric {
+      background: var(--surface-2);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+    }
+    .metric-label {
+      font-size: 12px;
+      color: var(--text-2);
+      margin-bottom: 4px;
+    }
+    .metric-value {
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .metric-value.small {
+      font-size: 14px;
+      padding-top: 4px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .card-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-2);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Form */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 520px) {
+      .form-row { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: 1fr; }
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .form-group label {
+      font-size: 13px;
+      color: var(--text-2);
+    }
+    .form-group input {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--bg);
+      border: 0.5px solid var(--border-2);
+      border-radius: var(--radius-md);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .form-group input:focus {
+      border-color: var(--text-2);
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+    }
+
+    .editing-banner {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      background: var(--info-bg);
+      color: var(--info-text);
+      border: 0.5px solid var(--info-border);
+      border-radius: var(--radius-md);
+      padding: 6px 12px;
+      margin-bottom: 14px;
+    }
+    .editing-banner.show { display: flex; }
+
+    .btn-row { display: flex; gap: 8px; margin-top: 16px; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--text);
+      color: var(--surface);
+      border: none;
+      padding: 9px 20px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.82; }
+
+    .btn-cancel {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      color: var(--text-2);
+      border: 0.5px solid var(--border-2);
+      padding: 9px 16px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-cancel:hover { background: var(--surface-2); }
+    .btn-cancel.show { display: inline-flex; }
+
+    /* Search */
+    .search-wrap { margin-bottom: 1rem; }
+    .search-wrap input {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--bg);
+      border: 0.5px solid var(--border-2);
+      border-radius: var(--radius-md);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .search-wrap input:focus {
+      border-color: var(--text-2);
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+    }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th {
+      text-align: left;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-2);
+      padding: 8px 12px;
+      border-bottom: 0.5px solid var(--border);
+    }
+    td {
+      padding: 10px 12px;
+      border-bottom: 0.5px solid var(--border);
+      color: var(--text);
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface-2); }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      border: none;
+      font-family: inherit;
+    }
+    .badge:hover { opacity: 0.75; }
+    .badge-edit {
+      background: var(--info-bg);
+      color: var(--info-text);
+      border: 0.5px solid var(--info-border);
+    }
+    .badge-del {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 0.5px solid var(--danger-border);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: var(--text-2);
+      font-size: 14px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      transform: translateY(8px);
+      z-index: 9999;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .toast.success {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border: 0.5px solid var(--success-border);
+    }
+    .toast.error {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 0.5px solid var(--danger-border);
+    }
+
+    .id-col { color: var(--text-3); font-size: 12px; }
+    .muted { color: var(--text-2); }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <h1>
+        <i class="ti ti-users" aria-hidden="true" style="font-size:22px;"></i>
+        Gestão de clientes
+      </h1>
+      <p>CRUD conectado à API REST em <code>localhost:3000</code></p>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <p class="metric-label">Total de clientes</p>
+        <p class="metric-value" id="metric-total">—</p>
+      </div>
+      <div class="metric">
+        <p class="metric-label">Status da API</p>
+        <p class="metric-value small" id="metric-status">verificando...</p>
+      </div>
+      <div class="metric">
+        <p class="metric-label">Última ação</p>
+        <p class="metric-value small" id="metric-last">—</p>
+      </div>
+    </div>
+
+    <!-- Formulário -->
+    <div class="card">
+      <p class="card-title" id="form-title">
+        <i class="ti ti-user-plus" aria-hidden="true"></i>
+        Adicionar cliente
+      </p>
+      <div class="editing-banner" id="editing-banner">
+        <i class="ti ti-pencil" aria-hidden="true"></i>
+        <span id="editing-name"></span>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="f-nome">Nome</label>
+          <input type="text" id="f-nome" placeholder="Nome completo" />
+        </div>
+        <div class="form-group">
+          <label for="f-email">E-mail</label>
+          <input type="email" id="f-email" placeholder="email@exemplo.com" />
+        </div>
+      </div>
+      <div class="form-group" style="max-width: 280px; margin-bottom: 4px;">
+        <label for="f-tel">Telefone</label>
+        <input type="text" id="f-tel" placeholder="(85) 99999-9999" />
+      </div>
+      <div class="btn-row">
+        <button class="btn-primary" id="btn-submit" onclick="submitForm()">
+          <i class="ti ti-check" aria-hidden="true"></i> Salvar
+        </button>
+        <button class="btn-cancel" id="btn-cancel" onclick="cancelEdit()">
+          <i class="ti ti-x" aria-hidden="true"></i> Cancelar
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabela -->
+    <div class="card">
+      <p class="card-title">
+        <i class="ti ti-list" aria-hidden="true"></i>
+        Clientes cadastrados
+      </p>
+      <div class="search-wrap">
+        <input type="text" id="search" placeholder="Filtrar por nome ou e-mail..." oninput="renderTable()" />
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:36px;">#</th>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Telefone</th>
+              <th style="width:110px; text-align:right;">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API = 'http://localhost:3000';
+    let clientes = [];
+    let editingId = null;
+
+    function toast(msg, type = 'success') {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.className = 'toast ' + type + ' show';
+      setTimeout(() => { el.className = 'toast ' + type; }, 2800);
+    }
+
+    function setMetric(id, val) {
+      document.getElementById(id).textContent = val;
+    }
+
+    async function loadClientes() {
+      try {
+        const r = await fetch(API + '/clientes');
+        if (!r.ok) throw new Error();
+        clientes = await r.json();
+        setMetric('metric-total', clientes.length);
+        setMetric('metric-status', '🟢 Online');
+        renderTable();
+      } catch {
+        setMetric('metric-status', '🔴 Offline');
+        setMetric('metric-total', '—');
+        document.getElementById('tbody').innerHTML =
+          '<tr><td colspan="5" class="empty-state">Não foi possível conectar à API em <code>localhost:3000</code>.<br>Verifique se o servidor está rodando.</td></tr>';
+      }
+    }
+
+    function esc(s) {
+      return (s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function renderTable() {
+      const q = document.getElementById('search').value.toLowerCase();
+      const filtered = q
+        ? clientes.filter(c =>
+            (c.nome || '').toLowerCase().includes(q) ||
+            (c.email || '').toLowerCase().includes(q)
+          )
+        : clientes;
+
+      const tbody = document.getElementById('tbody');
+
+      if (!filtered.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Nenhum cliente encontrado.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(c => `
+        <tr>
+          <td class="id-col">${c.id}</td>
+          <td style="font-weight:500;">${esc(c.nome)}</td>
+          <td class="muted">${esc(c.email)}</td>
+          <td class="muted">${esc(c.telefone)}</td>
+          <td style="text-align:right; white-space:nowrap;">
+            <button class="badge badge-edit" onclick="startEdit(${c.id})" title="Editar cliente">
+              <i class="ti ti-pencil" aria-hidden="true" style="font-size:12px;"></i> Editar
+            </button>
+            &nbsp;
+            <button class="badge badge-del" onclick="deleteCliente(${c.id})" title="Excluir cliente">
+              <i class="ti ti-trash" aria-hidden="true" style="font-size:12px;"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function submitForm() {
+      const nome     = document.getElementById('f-nome').value.trim();
+      const email    = document.getElementById('f-email').value.trim();
+      const telefone = document.getElementById('f-tel').value.trim();
+
+      if (!nome || !email) {
+        toast('Nome e e-mail são obrigatórios.', 'error');
+        return;
+      }
+
+      const body = JSON.stringify({ nome, email, telefone });
+      const headers = { 'Content-Type': 'application/json' };
+
+      try {
+        if (editingId) {
+          const r = await fetch(`${API}/clientes/${editingId}`, { method: 'PUT', headers, body });
+          if (!r.ok) throw new Error();
+          toast('Cliente atualizado com sucesso!');
+          setMetric('metric-last', 'Atualização');
+        } else {
+          const r = await fetch(`${API}/clientes`, { method: 'POST', headers, body });
+          if (!r.ok) throw new Error();
+          toast('Cliente adicionado com sucesso!');
+          setMetric('metric-last', 'Adição');
+        }
+        cancelEdit();
+        await loadClientes();
+      } catch {
+        toast('Erro ao salvar. Verifique a API.', 'error');
+      }
+    }
+
+    function startEdit(id) {
+      const c = clientes.find(x => x.id === id);
+      if (!c) return;
+      editingId = id;
+      document.getElementById('f-nome').value  = c.nome     || '';
+      document.getElementById('f-email').value = c.email    || '';
+      document.getElementById('f-tel').value   = c.telefone || '';
+      document.getElementById('form-title').innerHTML =
+        '<i class="ti ti-pencil" aria-hidden="true"></i> Editar cliente';
+      document.getElementById('editing-name').textContent = 'Editando: ' + c.nome;
+      document.getElementById('editing-banner').classList.add('show');
+      document.getElementById('btn-cancel').classList.add('show');
+      document.getElementById('f-nome').focus();
+      document.querySelector('.card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function cancelEdit() {
+      editingId = null;
+      document.getElementById('f-nome').value  = '';
+      document.getElementById('f-email').value = '';
+      document.getElementById('f-tel').value   = '';
+      document.getElementById('form-title').innerHTML =
+        '<i class="ti ti-user-plus" aria-hidden="true"></i> Adicionar cliente';
+      document.getElementById('editing-banner').classList.remove('show');
+      document.getElementById('btn-cancel').classList.remove('show');
+    }
+
+    async function deleteCliente(id) {
+      const c = clientes.find(x => x.id === id);
+      if (!confirm(`Deseja excluir "${c?.nome}"? Esta ação não pode ser desfeita.`)) return;
+      try {
+        const r = await fetch(`${API}/clientes/${id}`, { method: 'DELETE' });
+        if (!r.ok) throw new Error();
+        toast('Cliente excluído.');
+        setMetric('metric-last', 'Exclusão');
+        await loadClientes();
+      } catch {
+        toast('Erro ao excluir. Verifique a API.', 'error');
+      }
+    }
+
+    // Atalho: Enter no formulário salva
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && ['f-nome','f-email','f-tel'].includes(e.target.id)) {
+        submitForm();
+      }
+      if (e.key === 'Escape' && editingId) {
+        cancelEdit();
+      }
+    });
+
+    loadClientes();
+  </script>
+</body>
+</html>

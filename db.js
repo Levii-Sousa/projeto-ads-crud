@@ -1,10 +1,11 @@
 const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',      // Usuário padrão do XAMPP
-    password: '',      // Padrão do XAMPP é vazio
-    database: 'db_projeto', // Nome do banco que você criar no phpMyAdmin
+    host: process.env.MYSQLHOST || 'localhost',
+    user: process.env.MYSQLUSER || 'root',
+    password: process.env.MYSQLPASSWORD || '',
+    database: process.env.MYSQLDATABASE || 'db_projeto',
+    port: process.env.MYSQLPORT || 3306,
     waitForConnections: true,
     connectionLimit: 10
 });
