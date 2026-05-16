@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestão de Clientes</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/fonts/tabler-icons.min.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -28,6 +28,9 @@
       --success-bg: #eaf3de;
       --success-text: #3b6d11;
       --success-border: rgba(59,109,17,0.3);
+      --warning-bg: #faeeda;
+      --warning-text: #854f0b;
+      --warning-border: rgba(133,79,11,0.3);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -49,6 +52,9 @@
         --success-bg: #162108;
         --success-text: #97c459;
         --success-border: rgba(151,196,89,0.25);
+        --warning-bg: #2a1a05;
+        --warning-text: #ef9f27;
+        --warning-border: rgba(239,159,39,0.25);
       }
     }
 
@@ -61,266 +67,116 @@
       line-height: 1.6;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
+    .container { max-width: 800px; margin: 0 auto; }
 
-    /* Header */
-    .header {
-      margin-bottom: 2rem;
-    }
+    .header { margin-bottom: 2rem; }
     .header h1 {
-      font-size: 22px;
-      font-weight: 500;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-size: 22px; font-weight: 500; color: var(--text);
+      display: flex; align-items: center; gap: 10px;
     }
-    .header p {
-      font-size: 14px;
-      color: var(--text-2);
-      margin-top: 4px;
-    }
+    .header p { font-size: 14px; color: var(--text-2); margin-top: 4px; }
     .header code {
-      font-family: 'Courier New', monospace;
-      font-size: 13px;
-      background: var(--surface-2);
-      padding: 1px 6px;
-      border-radius: 4px;
-      border: 0.5px solid var(--border);
+      font-family: 'Courier New', monospace; font-size: 13px;
+      background: var(--surface-2); padding: 1px 6px;
+      border-radius: 4px; border: 0.5px solid var(--border);
     }
 
-    /* Metrics */
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 1.5rem;
-    }
-    .metric {
-      background: var(--surface-2);
-      border-radius: var(--radius-md);
-      padding: 1rem;
-    }
-    .metric-label {
-      font-size: 12px;
-      color: var(--text-2);
-      margin-bottom: 4px;
-    }
-    .metric-value {
-      font-size: 24px;
-      font-weight: 500;
-      color: var(--text);
-    }
-    .metric-value.small {
-      font-size: 14px;
-      padding-top: 4px;
-    }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+    .metric { background: var(--surface-2); border-radius: var(--radius-md); padding: 1rem; }
+    .metric-label { font-size: 12px; color: var(--text-2); margin-bottom: 4px; }
+    .metric-value { font-size: 24px; font-weight: 500; color: var(--text); }
+    .metric-value.small { font-size: 14px; padding-top: 4px; }
 
-    /* Card */
     .card {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.25rem;
-      margin-bottom: 1.5rem;
+      background: var(--surface); border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.5rem;
     }
     .card-title {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-2);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      font-size: 12px; font-weight: 500; color: var(--text-2);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 1rem; display: flex; align-items: center; gap: 6px;
     }
 
-    /* Form */
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
     @media (max-width: 520px) {
       .form-row { grid-template-columns: 1fr; }
       .metrics { grid-template-columns: 1fr; }
     }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .form-group label {
-      font-size: 13px;
-      color: var(--text-2);
-    }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label { font-size: 13px; color: var(--text-2); }
     .form-group input {
-      width: 100%;
-      padding: 8px 12px;
-      font-size: 14px;
-      color: var(--text);
-      background: var(--bg);
-      border: 0.5px solid var(--border-2);
-      border-radius: var(--radius-md);
-      outline: none;
-      transition: border-color 0.15s;
+      width: 100%; padding: 8px 12px; font-size: 14px; color: var(--text);
+      background: var(--bg); border: 0.5px solid var(--border-2);
+      border-radius: var(--radius-md); outline: none; transition: border-color 0.15s;
     }
-    .form-group input:focus {
-      border-color: var(--text-2);
-      box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
-    }
+    .form-group input:focus { border-color: var(--text-2); box-shadow: 0 0 0 3px rgba(0,0,0,0.06); }
+    .form-group input.error { border-color: var(--danger-text); }
+    .field-error { font-size: 12px; color: var(--danger-text); margin-top: 2px; display: none; }
+    .field-error.show { display: block; }
 
     .editing-banner {
-      display: none;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      background: var(--info-bg);
-      color: var(--info-text);
-      border: 0.5px solid var(--info-border);
-      border-radius: var(--radius-md);
-      padding: 6px 12px;
-      margin-bottom: 14px;
+      display: none; align-items: center; gap: 6px; font-size: 12px;
+      background: var(--info-bg); color: var(--info-text);
+      border: 0.5px solid var(--info-border); border-radius: var(--radius-md);
+      padding: 6px 12px; margin-bottom: 14px;
     }
     .editing-banner.show { display: flex; }
 
     .btn-row { display: flex; gap: 8px; margin-top: 16px; }
-
     .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--text);
-      color: var(--surface);
-      border: none;
-      padding: 9px 20px;
-      border-radius: var(--radius-md);
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: opacity 0.15s;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--text); color: var(--surface); border: none;
+      padding: 9px 20px; border-radius: var(--radius-md);
+      font-size: 14px; font-weight: 500; cursor: pointer; transition: opacity 0.15s;
     }
     .btn-primary:hover { opacity: 0.82; }
-
     .btn-cancel {
-      display: none;
-      align-items: center;
-      gap: 6px;
-      background: transparent;
-      color: var(--text-2);
-      border: 0.5px solid var(--border-2);
-      padding: 9px 16px;
-      border-radius: var(--radius-md);
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.15s;
+      display: none; align-items: center; gap: 6px;
+      background: transparent; color: var(--text-2);
+      border: 0.5px solid var(--border-2); padding: 9px 16px;
+      border-radius: var(--radius-md); font-size: 14px; cursor: pointer; transition: background 0.15s;
     }
     .btn-cancel:hover { background: var(--surface-2); }
     .btn-cancel.show { display: inline-flex; }
 
-    /* Search */
     .search-wrap { margin-bottom: 1rem; }
     .search-wrap input {
-      width: 100%;
-      padding: 8px 12px;
-      font-size: 14px;
-      color: var(--text);
-      background: var(--bg);
-      border: 0.5px solid var(--border-2);
-      border-radius: var(--radius-md);
-      outline: none;
-      transition: border-color 0.15s;
+      width: 100%; padding: 8px 12px; font-size: 14px; color: var(--text);
+      background: var(--bg); border: 0.5px solid var(--border-2);
+      border-radius: var(--radius-md); outline: none; transition: border-color 0.15s;
     }
-    .search-wrap input:focus {
-      border-color: var(--text-2);
-      box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
-    }
+    .search-wrap input:focus { border-color: var(--text-2); box-shadow: 0 0 0 3px rgba(0,0,0,0.06); }
 
-    /* Table */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 14px; }
     th {
-      text-align: left;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-2);
-      padding: 8px 12px;
-      border-bottom: 0.5px solid var(--border);
+      text-align: left; font-size: 12px; font-weight: 500; color: var(--text-2);
+      padding: 8px 12px; border-bottom: 0.5px solid var(--border);
     }
-    td {
-      padding: 10px 12px;
-      border-bottom: 0.5px solid var(--border);
-      color: var(--text);
-      vertical-align: middle;
-    }
+    td { padding: 10px 12px; border-bottom: 0.5px solid var(--border); color: var(--text); vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: var(--surface-2); }
 
     .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      padding: 3px 10px;
-      border-radius: 99px;
-      cursor: pointer;
-      transition: opacity 0.15s;
-      border: none;
-      font-family: inherit;
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 12px; padding: 3px 10px; border-radius: 99px;
+      cursor: pointer; transition: opacity 0.15s; border: none; font-family: inherit;
     }
     .badge:hover { opacity: 0.75; }
-    .badge-edit {
-      background: var(--info-bg);
-      color: var(--info-text);
-      border: 0.5px solid var(--info-border);
-    }
-    .badge-del {
-      background: var(--danger-bg);
-      color: var(--danger-text);
-      border: 0.5px solid var(--danger-border);
-    }
+    .badge-edit { background: var(--info-bg); color: var(--info-text); border: 0.5px solid var(--info-border); }
+    .badge-del { background: var(--danger-bg); color: var(--danger-text); border: 0.5px solid var(--danger-border); }
 
-    .empty-state {
-      text-align: center;
-      padding: 2.5rem 1rem;
-      color: var(--text-2);
-      font-size: 14px;
-    }
+    .empty-state { text-align: center; padding: 2.5rem 1rem; color: var(--text-2); font-size: 14px; }
 
-    /* Toast */
     .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      padding: 10px 18px;
-      border-radius: var(--radius-md);
-      font-size: 13px;
-      font-weight: 500;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s, transform 0.3s;
-      transform: translateY(8px);
-      z-index: 9999;
+      position: fixed; bottom: 24px; right: 24px; padding: 10px 18px;
+      border-radius: var(--radius-md); font-size: 13px; font-weight: 500;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s;
+      transform: translateY(8px); z-index: 9999;
     }
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .toast.success {
-      background: var(--success-bg);
-      color: var(--success-text);
-      border: 0.5px solid var(--success-border);
-    }
-    .toast.error {
-      background: var(--danger-bg);
-      color: var(--danger-text);
-      border: 0.5px solid var(--danger-border);
-    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.success { background: var(--success-bg); color: var(--success-text); border: 0.5px solid var(--success-border); }
+    .toast.error { background: var(--danger-bg); color: var(--danger-text); border: 0.5px solid var(--danger-border); }
 
     .id-col { color: var(--text-3); font-size: 12px; }
     .muted { color: var(--text-2); }
@@ -330,11 +186,8 @@
   <div class="container">
 
     <div class="header">
-      <h1>
-        <i class="ti ti-users" aria-hidden="true" style="font-size:22px;"></i>
-        Gestão de clientes
-      </h1>
-      <p>CRUD conectado à API REST em <code>localhost:3000</code></p>
+      <h1><i class="ti ti-users" aria-hidden="true" style="font-size:22px;"></i> Gestão de clientes</h1>
+      <p>CRUD conectado à API REST em <code>projeto-ads-crud-production.up.railway.app</code></p>
     </div>
 
     <div class="metrics">
@@ -352,11 +205,9 @@
       </div>
     </div>
 
-    <!-- Formulário -->
     <div class="card">
       <p class="card-title" id="form-title">
-        <i class="ti ti-user-plus" aria-hidden="true"></i>
-        Adicionar cliente
+        <i class="ti ti-user-plus" aria-hidden="true"></i> Adicionar cliente
       </p>
       <div class="editing-banner" id="editing-banner">
         <i class="ti ti-pencil" aria-hidden="true"></i>
@@ -364,20 +215,23 @@
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label for="f-nome">Nome</label>
+          <label for="f-nome">Nome <span style="color:var(--danger-text)">*</span></label>
           <input type="text" id="f-nome" placeholder="Nome completo" />
+          <span class="field-error" id="err-nome"></span>
         </div>
         <div class="form-group">
-          <label for="f-email">E-mail</label>
+          <label for="f-email">E-mail <span style="color:var(--danger-text)">*</span></label>
           <input type="email" id="f-email" placeholder="email@exemplo.com" />
+          <span class="field-error" id="err-email"></span>
         </div>
       </div>
       <div class="form-group" style="max-width: 280px; margin-bottom: 4px;">
-        <label for="f-tel">Telefone</label>
-        <input type="text" id="f-tel" placeholder="(85) 99999-9999" />
+        <label for="f-tel">Telefone <span style="color:var(--danger-text)">*</span></label>
+        <input type="text" id="f-tel" placeholder="(85) 99999-9999" maxlength="15" />
+        <span class="field-error" id="err-tel"></span>
       </div>
       <div class="btn-row">
-        <button class="btn-primary" id="btn-submit" onclick="submitForm()">
+        <button class="btn-primary" onclick="submitForm()">
           <i class="ti ti-check" aria-hidden="true"></i> Salvar
         </button>
         <button class="btn-cancel" id="btn-cancel" onclick="cancelEdit()">
@@ -386,11 +240,9 @@
       </div>
     </div>
 
-    <!-- Tabela -->
     <div class="card">
       <p class="card-title">
-        <i class="ti ti-list" aria-hidden="true"></i>
-        Clientes cadastrados
+        <i class="ti ti-list" aria-hidden="true"></i> Clientes cadastrados
       </p>
       <div class="search-wrap">
         <input type="text" id="search" placeholder="Filtrar por nome ou e-mail..." oninput="renderTable()" />
@@ -427,8 +279,45 @@
       setTimeout(() => { el.className = 'toast ' + type; }, 2800);
     }
 
-    function setMetric(id, val) {
-      document.getElementById(id).textContent = val;
+    function setMetric(id, val) { document.getElementById(id).textContent = val; }
+
+    function formatarTelefone(v) {
+      v = v.replace(/\D/g, '').slice(0, 11);
+      if (v.length <= 2) return v;
+      if (v.length <= 7) return `(${v.slice(0,2)}) ${v.slice(2)}`;
+      return `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+    }
+
+    document.getElementById('f-tel').addEventListener('input', function () {
+      this.value = formatarTelefone(this.value);
+    });
+
+    function limparErros() {
+      ['nome','email','tel'].forEach(f => {
+        document.getElementById('f-' + f).classList.remove('error');
+        document.getElementById('err-' + f).classList.remove('show');
+        document.getElementById('err-' + f).textContent = '';
+      });
+    }
+
+    function mostrarErro(campo, msg) {
+      const input = document.getElementById('f-' + campo);
+      const err = document.getElementById('err-' + campo);
+      input.classList.add('error');
+      err.textContent = msg;
+      err.classList.add('show');
+    }
+
+    function validar(nome, email, telefone) {
+      limparErros();
+      let valido = true;
+      if (!nome.trim()) { mostrarErro('nome', 'Nome é obrigatório.'); valido = false; }
+      if (!email.trim()) { mostrarErro('email', 'E-mail é obrigatório.'); valido = false; }
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) { mostrarErro('email', 'E-mail inválido.'); valido = false; }
+      const digits = telefone.replace(/\D/g, '');
+      if (!telefone.trim()) { mostrarErro('tel', 'Telefone é obrigatório.'); valido = false; }
+      else if (digits.length !== 11) { mostrarErro('tel', 'Telefone deve ter 11 dígitos (DDD + número).'); valido = false; }
+      return valido;
     }
 
     async function loadClientes() {
@@ -443,15 +332,18 @@
         setMetric('metric-status', '🔴 Offline');
         setMetric('metric-total', '—');
         document.getElementById('tbody').innerHTML =
-          '<tr><td colspan="5" class="empty-state">Não foi possível conectar à API em <code>localhost:3000</code>.<br>Verifique se o servidor está rodando.</td></tr>';
+          '<tr><td colspan="5" class="empty-state">Não foi possível conectar à API.<br>Verifique se o servidor está rodando.</td></tr>';
       }
     }
 
     function esc(s) {
-      return (s || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+      return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function formatarExibicao(tel) {
+      const v = (tel || '').replace(/\D/g, '');
+      if (v.length === 11) return `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+      return tel;
     }
 
     function renderTable() {
@@ -459,12 +351,10 @@
       const filtered = q
         ? clientes.filter(c =>
             (c.nome || '').toLowerCase().includes(q) ||
-            (c.email || '').toLowerCase().includes(q)
-          )
+            (c.email || '').toLowerCase().includes(q))
         : clientes;
 
       const tbody = document.getElementById('tbody');
-
       if (!filtered.length) {
         tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Nenhum cliente encontrado.</td></tr>';
         return;
@@ -475,45 +365,46 @@
           <td class="id-col">${c.id}</td>
           <td style="font-weight:500;">${esc(c.nome)}</td>
           <td class="muted">${esc(c.email)}</td>
-          <td class="muted">${esc(c.telefone)}</td>
+          <td class="muted">${formatarExibicao(c.telefone)}</td>
           <td style="text-align:right; white-space:nowrap;">
-            <button class="badge badge-edit" onclick="startEdit(${c.id})" title="Editar cliente">
-              <i class="ti ti-pencil" aria-hidden="true" style="font-size:12px;"></i> Editar
+            <button class="badge badge-edit" onclick="startEdit(${c.id})">
+              <i class="ti ti-pencil" style="font-size:12px;" aria-hidden="true"></i> Editar
             </button>
             &nbsp;
-            <button class="badge badge-del" onclick="deleteCliente(${c.id})" title="Excluir cliente">
-              <i class="ti ti-trash" aria-hidden="true" style="font-size:12px;"></i>
+            <button class="badge badge-del" onclick="deleteCliente(${c.id})">
+              <i class="ti ti-trash" style="font-size:12px;" aria-hidden="true"></i>
             </button>
           </td>
-        </tr>
-      `).join('');
+        </tr>`).join('');
     }
 
     async function submitForm() {
-      const nome     = document.getElementById('f-nome').value.trim();
-      const email    = document.getElementById('f-email').value.trim();
-      const telefone = document.getElementById('f-tel').value.trim();
+      const nome     = document.getElementById('f-nome').value;
+      const email    = document.getElementById('f-email').value;
+      const telefone = document.getElementById('f-tel').value;
 
-      if (!nome || !email) {
-        toast('Nome e e-mail são obrigatórios.', 'error');
-        return;
-      }
+      if (!validar(nome, email, telefone)) return;
 
-      const body = JSON.stringify({ nome, email, telefone });
+      const body = JSON.stringify({ nome: nome.trim(), email: email.trim(), telefone });
       const headers = { 'Content-Type': 'application/json' };
 
       try {
+        let r;
         if (editingId) {
-          const r = await fetch(`${API}/clientes/${editingId}`, { method: 'PUT', headers, body });
-          if (!r.ok) throw new Error();
-          toast('Cliente atualizado com sucesso!');
-          setMetric('metric-last', 'Atualização');
+          r = await fetch(`${API}/clientes/${editingId}`, { method: 'PUT', headers, body });
         } else {
-          const r = await fetch(`${API}/clientes`, { method: 'POST', headers, body });
-          if (!r.ok) throw new Error();
-          toast('Cliente adicionado com sucesso!');
-          setMetric('metric-last', 'Adição');
+          r = await fetch(`${API}/clientes`, { method: 'POST', headers, body });
         }
+
+        if (!r.ok) {
+          const data = await r.json();
+          const msgs = data.erros ? data.erros.join(' ') : 'Erro ao salvar.';
+          toast(msgs, 'error');
+          return;
+        }
+
+        toast(editingId ? 'Cliente atualizado!' : 'Cliente adicionado!');
+        setMetric('metric-last', editingId ? 'Atualização' : 'Adição');
         cancelEdit();
         await loadClientes();
       } catch {
@@ -525,14 +416,14 @@
       const c = clientes.find(x => x.id === id);
       if (!c) return;
       editingId = id;
-      document.getElementById('f-nome').value  = c.nome     || '';
-      document.getElementById('f-email').value = c.email    || '';
-      document.getElementById('f-tel').value   = c.telefone || '';
-      document.getElementById('form-title').innerHTML =
-        '<i class="ti ti-pencil" aria-hidden="true"></i> Editar cliente';
+      document.getElementById('f-nome').value  = c.nome || '';
+      document.getElementById('f-email').value = c.email || '';
+      document.getElementById('f-tel').value   = formatarExibicao(c.telefone);
+      document.getElementById('form-title').innerHTML = '<i class="ti ti-pencil" aria-hidden="true"></i> Editar cliente';
       document.getElementById('editing-name').textContent = 'Editando: ' + c.nome;
       document.getElementById('editing-banner').classList.add('show');
       document.getElementById('btn-cancel').classList.add('show');
+      limparErros();
       document.getElementById('f-nome').focus();
       document.querySelector('.card').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -542,10 +433,10 @@
       document.getElementById('f-nome').value  = '';
       document.getElementById('f-email').value = '';
       document.getElementById('f-tel').value   = '';
-      document.getElementById('form-title').innerHTML =
-        '<i class="ti ti-user-plus" aria-hidden="true"></i> Adicionar cliente';
+      document.getElementById('form-title').innerHTML = '<i class="ti ti-user-plus" aria-hidden="true"></i> Adicionar cliente';
       document.getElementById('editing-banner').classList.remove('show');
       document.getElementById('btn-cancel').classList.remove('show');
+      limparErros();
     }
 
     async function deleteCliente(id) {
@@ -558,18 +449,13 @@
         setMetric('metric-last', 'Exclusão');
         await loadClientes();
       } catch {
-        toast('Erro ao excluir. Verifique a API.', 'error');
+        toast('Erro ao excluir.', 'error');
       }
     }
 
-    // Atalho: Enter no formulário salva
     document.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && ['f-nome','f-email','f-tel'].includes(e.target.id)) {
-        submitForm();
-      }
-      if (e.key === 'Escape' && editingId) {
-        cancelEdit();
-      }
+      if (e.key === 'Enter' && ['f-nome','f-email','f-tel'].includes(e.target.id)) submitForm();
+      if (e.key === 'Escape' && editingId) cancelEdit();
     });
 
     loadClientes();

@@ -1,22 +1,54 @@
 const express = require('express');
-const cors = require('cors'); // 1. Importa o CORS
-const pool = require('./db'); 
+const cors = require('cors');
+const pool = require('./db');
 const app = express();
 
-// 2. Configurações e Middlewares (Ordem importa!)
-app.use(cors());          // Ativa o CORS para permitir requisições de outros lugares
-app.use(express.json());  // Permite que o servidor entenda JSON
+app.use(cors());
+app.use(express.json());
 
+// Função de validação
+function validarCliente({ nome, email, telefone }) {
+    const erros = [];
+
+    if (!nome || nome.trim().length === 0) {
+        erros.push('Nome é obrigatório.');
+    }
+
+    if (!email || email.trim().length === 0) {
+        erros.push('E-mail é obrigatório.');
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+        erros.push('E-mail inválido.');
+    }
+
+    if (!telefone || telefone.trim().length === 0) {
+        erros.push('Telefone é obrigatório.');
+    } else {
+        const apenasNumeros = telefone.replace(/\D/g, '');
+        if (apenasNumeros.length !== 11) {
+            erros.push('Telefone deve ter 11 dígitos (DDD + número).');
+        }
+    }
+
+    return erros;
+}
 
 // CREATE
 app.post('/clientes', async (req, res) => {
     const { nome, email, telefone } = req.body;
+
+    const erros = validarCliente({ nome, email, telefone });
+    if (erros.length > 0) {
+        return res.status(400).json({ erros });
+    }
+
+    const telefoneLimpo = telefone.replace(/\D/g, '');
+
     try {
         const [result] = await pool.query(
             'INSERT INTO cliente (nome, email, telefone) VALUES (?, ?, ?)',
-            [nome, email, telefone]
+            [nome.trim(), email.trim(), telefoneLimpo]
         );
-        res.status(201).json({ id: result.insertId, nome, email, telefone });
+        res.status(201).json({ id: result.insertId, nome, email, telefone: telefoneLimpo });
     } catch (err) {
         console.error("ERRO DETECTADO NO SERVIDOR:", err);
         res.status(500).json({ erro: err.message });
@@ -38,10 +70,18 @@ app.get('/clientes', async (req, res) => {
 app.put('/clientes/:id', async (req, res) => {
     const { id } = req.params;
     const { nome, email, telefone } = req.body;
+
+    const erros = validarCliente({ nome, email, telefone });
+    if (erros.length > 0) {
+        return res.status(400).json({ erros });
+    }
+
+    const telefoneLimpo = telefone.replace(/\D/g, '');
+
     try {
         await pool.query(
             'UPDATE cliente SET nome = ?, email = ?, telefone = ? WHERE id = ?',
-            [nome, email, telefone, id]
+            [nome.trim(), email.trim(), telefoneLimpo, id]
         );
         res.json({ mensagem: 'Cliente atualizado com sucesso' });
     } catch (err) {
@@ -57,10 +97,10 @@ app.delete('/clientes/:id', async (req, res) => {
         await pool.query('DELETE FROM cliente WHERE id = ?', [id]);
         res.json({ mensagem: 'Cliente excluído com sucesso' });
     } catch (err) {
-        console.error("ERRO DETECTADO NO SERVIDOR:", err); // Isso aparece no seu terminal do VS Code
+        console.error("ERRO DETECTADO NO SERVIDOR:", err);
         res.status(500).json({ erro: err.message });
     }
 });
 
-// Inicialização do servidor
-app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
