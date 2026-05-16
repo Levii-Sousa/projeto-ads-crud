@@ -1,13 +1,17 @@
 const mysql = require('mysql2/promise');
 
-const pool = mysql.createPool({
-    host: process.env.MYSQLHOST || 'localhost',
-    user: process.env.MYSQLUSER || 'root',
-    password: process.env.MYSQLPASSWORD || '',
-    database: process.env.MYSQLDATABASE || 'db_projeto',
-    port: process.env.MYSQLPORT || 3306,
-    waitForConnections: true,
-    connectionLimit: 10
-});
+const pool = mysql.createPool(
+    process.env.MYSQL_URL || {
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'db_projeto',
+        port: 3306,
+    }
+);
+
+pool.getConnection()
+    .then(() => console.log('Banco de dados conectado com sucesso!'))
+    .catch(err => console.error('Erro ao conectar no banco:', err.message));
 
 module.exports = pool;
