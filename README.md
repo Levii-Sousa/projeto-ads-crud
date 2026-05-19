@@ -105,5 +105,5 @@ Abra o arquivo `index.html` no navegador com Live Server.
 ---
 👨‍💻 Autor
 Feito por Levi Sousa  
-![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)
+![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white)(https://www.linkedin.com/in/levi-sousa-777br/?skipRedirect=true)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)(https://github.com/Levii-Sousa)
