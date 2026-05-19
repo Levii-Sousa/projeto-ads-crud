@@ -1,6 +1,6 @@
 📋 Sistema de Gestão de Clientes — CRUD Full Stack
 Aplicação web completa para cadastro, consulta, atualização e exclusão de clientes, desenvolvida com Node.js, Express, MySQL e HTML/CSS/JS puro no front-end.
-🔗 Acesse o projeto online — nenhuma instalação necessária!
+🔗 [Acesse o projeto online] (https://stunning-tartufo-8312dd.netlify.app) — nenhuma instalação necessária!
 ---
 🚀 Tecnologias utilizadas
 Camada	Tecnologia
@@ -73,7 +73,7 @@ CREATE TABLE cliente (
     email    VARCHAR(100) NOT NULL,
     telefone CHAR(11)     NOT NULL
 );
-```
+``` 
 ---
 🖥️ Rodando localmente (para desenvolvimento)
 > Esta seção é para quem quiser modificar ou contribuir com o projeto.
