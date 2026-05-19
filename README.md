@@ -1,6 +1,6 @@
 📋 Sistema de Gestão de Clientes — CRUD Full Stack
 Aplicação web completa para cadastro, consulta, atualização e exclusão de clientes, desenvolvida com Node.js, Express, MySQL e HTML/CSS/JS puro no front-end.
-🔗 [Acesse o projeto online] (https://stunning-tartufo-8312dd.netlify.app) — nenhuma instalação necessária!
+🔗 [Acesse o projeto online] (https://levii-sousa.github.io/projeto-ads-crud) — nenhuma instalação necessária!
 ---
 🚀 Tecnologias utilizadas
 Camada	Tecnologia
@@ -37,7 +37,7 @@ projeto-ads-crud/
 ---
 🌐 URLs de produção
 Serviço	URL
-Front-end	https://stunning-tartufo-8312dd.netlify.app
+Front-end	https://stunning-tartufo-8312dd.netlify.ap
 API	https://projeto-ads-crud-production.up.railway.app
 ---
 🔌 Endpoints da API
@@ -77,7 +77,7 @@ CREATE TABLE cliente (
 ---
 🖥️ Rodando localmente (para desenvolvimento)
 > Esta seção é para quem quiser modificar ou contribuir com o projeto.
-> Para apenas **usar** a aplicação, acesse o [link online](https://stunning-tartufo-8312dd.netlify.app).
+> Para apenas **usar** a aplicação, acesse o [link online](https://levii-sousa.github.io/projeto-ads-crud).
 Pré-requisitos
 Node.js instalado
 XAMPP instalado (para o MySQL)
